@@ -1,9 +1,9 @@
 
-{% extends 'partials/base.html' %}
-{% block title %}
-    Homepage
-{% endblock title %}
+{% if request.user.is_authenticated %}
+    <h4>Hello {{ request.user.username|title }}</h4>
+    <a href="{% url 'userauths:sign-out' %}">Sign Out</a>
+{% else %}
+    <a href="{% url 'userauths:sign-in' %}">Sign In</a>
+    <a href="{% url 'userauths:sign-up' %}">Sign Up</a>
 
-{% block content %}
-    <h1>My account</h1>
-{% endblock content  %}
+{% endif %}
