@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Paylio - Money Transfer and Online Payments HTML Template</title>
-
+    
     <link rel="shortcut icon" href="{% static 'assets/images/fav.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/fontawesome.min.css' %}">
@@ -22,15 +22,9 @@
 </head>
 
 <body>
-    <!-- start preloader -->
-    <!--<div class="preloader" id="preloader"></div>-->
-    <!-- end preloader -->
 
-    <!-- Scroll To Top Start-->
     <a href="javascript:void(0)" class="scrollToTop"><i class="fas fa-angle-double-up"></i></a>
-    <!-- Scroll To Top End -->
 
-    <!-- header-section start -->
     <header class="header-section">
         <div class="overlay">
             <div class="container">
@@ -99,24 +93,45 @@
                                 </li>
                             </ul>
                             <div class="right-area header-action d-flex align-items-center max-un">
-                                <a href="login.html" class="login">Login</a>
-                                <a href="sign-up.html" class="cmn-btn">Sign Up
-                                    <i class="icon-d-right-arrow-2"></i>
+                                {% if request.user.is_authenticated %}
+                                <a href="/admin" class="login cmdn-btn">Admin</a>
+                                <a href="{% url 'userauths:sign-out' %}" class="login cmn-btn">Sign Out</a>
+                                {% else %}
+                                <a href="{% url 'userauths:sign-in' %}" class="login">Login</a>
+                                <a href="{% url 'userauths:sign-up' %}" class="cmn-btn">Sign Up
+                                    <i class="fas fa-caret-right"></i>
                                 </a>
+                                {% endif %}
+                                
                             </div>
                         </div>
                     </nav>
                 </div>
+                <!-- alert start -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <script>
+                    setTimeout (() => {
+                        $(".alert").alert("close");
+                    }, 4000)
+                </script>
+                <!-- alert end -->
             </div>
         </div>
     </header>
     <!-- header-section end -->
 
-
 {% block content %}
-
+  
 {% endblock content %}
 
+
+    
     <!--==================================================================-->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery-ui.js' %}"></script>
